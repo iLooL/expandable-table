@@ -26,16 +26,35 @@ type Deployment = {
   
       setExpandedRows(newExpandedRows);
     };
+    
     // <div className="border-b font-medium dark:border-neutral-500 px-6 py-4">Heading</div>
-  
     return (
-      <div className="flex overflow-x-auto w-4/5  h-10 justify-between">
-          <div className="bg-blue-500">heading</div>
-          <div className="bg-blue-500">heading</div>
-          <div className="bg-blue-500">heading</div>
-          <div className="bg-blue-500">heading</div>
-          <div className="bg-blue-500">heading</div>
-          <div className="bg-blue-500">heading</div>
+      <div className="w-full h-full mx-auto">
+        <div className="flex overflow-x-auto h-10 ">
+          <div className="bg-blue-500 px-3 py-4 w-1/5">heading</div>
+          <div className="bg-blue-500 px-3 py-4 w-1/5">heading</div>
+          <div className="bg-blue-500 px-3 py-4 w-1/5">heading</div>
+          <div className="bg-blue-500 px-3 py-4 w-1/5">heading</div>
+          <div className="bg-blue-500 px-3 py-4 w-1/5">heading</div>
+        </div>
+        <div className="h-fit flex-col"> {/* tbody */ }
+        {deployments.map((deployment, index) => (
+          <React.Fragment key={index}>
+            <div className="flex w-full justify-between" onClick={() => handleRowClick(index)}>  {/* row */}
+              <div className='bg-slate-200 px-3 py-4 w-1/5'>{deployment.branch}</div>
+              <div className='bg-slate-200 px-3 py-4 w-1/5'>{deployment.deployment_date}</div>
+              <div className='bg-slate-200 px-3 py-4 w-1/5'>{deployment.status}</div>
+              <div className='bg-slate-200 px-3 py-4 w-1/5'>{deployment.environment}</div>
+              <div className='bg-slate-200 px-3 py-4 w-1/5'>cell</div>
+            </div>
+            {expandedRows.includes(index) && (
+              <div className="col-span-5 border-t border-gray-200 bg-slate-400 p-2 h-56">
+                <p>HELLO</p>
+              </div>
+            )}
+          </React.Fragment>
+        ))}
+        </div>
       </div>
     );
 

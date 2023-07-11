@@ -5,7 +5,7 @@ function App() {
  
 
   return (
-    <div className="flex w-max h-max">
+    <div className="w-11/12 mx-auto bg-red-300">
       <DeploymentTable deployments={deployments} />
     </div>
   )
