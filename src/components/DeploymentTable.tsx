@@ -13,7 +13,14 @@ type Deployment = {
   
   const DeploymentTable: React.FC<Props> = ({ deployments }) => {
     const [expandedRows, setExpandedRows] = useState<number[]>([]);
-  
+    const headers = [
+          "Environment",
+          "Branch",
+          "Date",
+          "Status",
+          "Rollback",
+          "Deploy"
+    ]
     const handleRowClick = (index: number) => {
       const currentIndex = expandedRows.indexOf(index);
       const newExpandedRows = [...expandedRows];
@@ -27,25 +34,36 @@ type Deployment = {
       setExpandedRows(newExpandedRows);
     };
     
-    // <div className="border-b font-medium dark:border-neutral-500 px-6 py-4">Heading</div>
     return (
       <div className="w-full h-full mx-auto">
         <div className="flex overflow-x-auto h-10 ">
-          <div className="bg-blue-500 px-3 py-4 w-1/5">heading</div>
-          <div className="bg-blue-500 px-3 py-4 w-1/5">heading</div>
-          <div className="bg-blue-500 px-3 py-4 w-1/5">heading</div>
-          <div className="bg-blue-500 px-3 py-4 w-1/5">heading</div>
-          <div className="bg-blue-500 px-3 py-4 w-1/5">heading</div>
+          {
+            headers.map((item: any, index: number) => (
+              <>
+                { headers.length - index === 1 || headers.length - index === 2 ? 
+                  <div key={index} className="bg-blue-500 px-3 py-4 w-1/6 flex justify-center">{item}</div>
+                  :
+                  <div key={index} className="bg-blue-500 px-3 py-4 w-1/6 flex justify-start">{item}</div>
+                }
+              </>
+            ))
+          }
+          {/* <div className="bg-blue-500 px-3 py-4 w-1/6 flex justify-center">Environment</div>
+          <div className="bg-blue-500 px-3 py-4 w-1/6 flex justify-center">Date</div>
+          <div className="bg-blue-500 px-3 py-4 w-1/6 flex justify-center">Status</div>
+          <div className="bg-blue-500 px-3 py-4 w-1/6 flex justify-center">Rollback</div>
+          <div className="bg-blue-500 px-3 py-4 w-1/6 flex justify-center">Deploy</div> */}
         </div>
         <div className="h-fit flex-col"> {/* tbody */ }
         {deployments.map((deployment, index) => (
           <React.Fragment key={index}>
-            <div className="flex w-full justify-between" onClick={() => handleRowClick(index)}>  {/* row */}
-              <div className='bg-slate-200 px-3 py-4 w-1/5'>{deployment.branch}</div>
-              <div className='bg-slate-200 px-3 py-4 w-1/5'>{deployment.deployment_date}</div>
-              <div className='bg-slate-200 px-3 py-4 w-1/5'>{deployment.status}</div>
-              <div className='bg-slate-200 px-3 py-4 w-1/5'>{deployment.environment}</div>
-              <div className='bg-slate-200 px-3 py-4 w-1/5'>cell</div>
+            <div className="flex w-full justify-between h-15" onClick={() => handleRowClick(index)}>  {/* row */}
+              <div className='bg-slate-200 px-3 py-4 w-1/6'>{deployment.branch}</div>
+              <div className='bg-slate-200 px-3 py-4 w-1/6'>{deployment.deployment_date}</div>
+              <div className='bg-slate-200 px-3 py-4 w-1/6'>{deployment.status}</div>
+              <div className='bg-slate-200 px-3 py-4 w-1/6'>{deployment.environment}</div>
+              <div className='bg-slate-200 px-3 py-4 w-1/6 flex justify-center'>O</div>
+              <div className='bg-slate-200 px-3 py-4 w-1/6 flex justify-center'>O</div>
             </div>
             {expandedRows.includes(index) && (
               <div className="col-span-5 border-t border-gray-200 bg-slate-400 p-2 h-56">
