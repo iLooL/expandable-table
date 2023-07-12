@@ -19,6 +19,7 @@ type Props = {
 };
 
 const DeploymentTable: React.FC<Props> = ({ deployments }) => {
+  // key is index of row, T/F for if it's selected
     const [expandedRows, setExpandedRows] = useState<{ [key: number]: boolean }>({});
     const headers = [
         "Environment",
@@ -35,34 +36,36 @@ const DeploymentTable: React.FC<Props> = ({ deployments }) => {
         }));
     };
 
+    console.log(expandedRows)
+
     return (
         <div className="w-full h-full mx-auto">
-            <div className="flex overflow-x-auto h-10 ">
+            <div className="flex overflow-x-auto">
                 {
                     headers.map((item: any, index: number) => (
-                        <>
+                        <React.Fragment key={index}>
                             { headers.length - index === 1 || headers.length - index === 2 ? 
-                                <div key={index} className="bg-blue-500 px-3 py-4 w-1/6 flex justify-center">{item}</div>
+                                <div key={index} className="bg-gray-800 text-white px-3 py-4 w-1/6 flex justify-center">{item}</div>
                                 :
-                                <div key={index} className="bg-blue-500 px-3 py-4 w-1/6 flex justify-start">{item}</div>
+                                <div key={index} className="bg-gray-800 text-white px-3 py-4 w-1/6 flex justify-start">{item}</div>
                             }
-                        </>
+                        </React.Fragment>
                     ))
                 }
             </div>
             <div className="h-fit flex-col">
                 {deployments.map((deployment, index) => (
                     <React.Fragment key={index}>
-                        <div className="flex w-full justify-between h-15" onClick={() => handleRowClick(index)}>
-                            <div className='bg-slate-200 px-3 py-4 w-1/6'>{deployment.branch}</div>
-                            <div className='bg-slate-200 px-3 py-4 w-1/6'>{deployment.deployment_date}</div>
-                            <div className='bg-slate-200 px-3 py-4 w-1/6'>{deployment.status}</div>
-                            <div className='bg-slate-200 px-3 py-4 w-1/6'>{deployment.environment}</div>
-                            <div className='bg-slate-200 px-3 py-4 w-1/6 flex justify-center'>O</div>
-                            <div className='bg-slate-200 px-3 py-4 w-1/6 flex justify-center'>O</div>
+                        <div className="flex w-full justify-between border-b-2 border-sky-500 hover:border-sky-700" onClick={() => handleRowClick(index)}>
+                            <div className='px-3 py-4 w-1/6'>{deployment.branch}</div>
+                            <div className='px-3 py-4 w-1/6'>{deployment.deployment_date}</div>
+                            <div className='px-3 py-4 w-1/6'>{deployment.status}</div>
+                            <div className='px-3 py-4 w-1/6'>{deployment.environment}</div>
+                            <div className='px-3 py-4 w-1/6 flex justify-center'>O</div>
+                            <div className='px-3 py-4 w-1/6 flex justify-center'>O</div>
                         </div>
                         {expandedRows[index] && (
-                            <div className="col-span-5 border-t border-gray-200 bg-slate-400 p-2 h-56">
+                            <div className="from-blackcol-span-5 mt-3 border border-gray-200 p-4 rounded-2xl">
                                 <p>{`Branch: ${deployment.branch}`}</p>
                                 <p>{`Deployment Date: ${deployment.deployment_date}`}</p>
                                 <p>{`Status: ${deployment.status}`}</p>

@@ -5,7 +5,7 @@ function App() {
  
 
   return (
-    <div className="w-11/12 mx-auto bg-red-300">
+    <div className="w-11/12 mx-auto">
       <DeploymentTable deployments={deployments} />
     </div>
   )
