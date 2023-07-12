@@ -1,10 +1,17 @@
 import React, { useState } from 'react'
 
 type Deployment = {
-    branch: string;
-    deployment_date: string;
-    status: string;
-    environment: string;
+  branch: string;
+  deployment_date: string;
+  status: string;
+  environment: string;
+  commit_hash: string;
+  deployed_by: string;
+  deployment_duration: string;
+  rollback_status: string;
+  error_logs: string;
+  test_results: string;
+  deployment_notes: string;
 };
 
 type Props = {
@@ -12,8 +19,7 @@ type Props = {
 };
 
 const DeploymentTable: React.FC<Props> = ({ deployments }) => {
-    const [expandedRows, setExpandedRows] = useState<number[]>([]);
-    const [selectedDeployment, setSelectedDeployment] = useState<Deployment | null>(null);
+    const [expandedRows, setExpandedRows] = useState<{ [key: number]: boolean }>({});
     const headers = [
         "Environment",
         "Branch",
@@ -23,18 +29,10 @@ const DeploymentTable: React.FC<Props> = ({ deployments }) => {
         "Deploy"
     ]
     const handleRowClick = (index: number) => {
-        const currentIndex = expandedRows.indexOf(index);
-        const newExpandedRows = [...expandedRows];
-
-        if (currentIndex === -1) {
-            newExpandedRows.push(index);
-            setSelectedDeployment(deployments[index]);
-        } else {
-            newExpandedRows.splice(currentIndex, 1);
-            setSelectedDeployment(null);
-        }
-
-        setExpandedRows(newExpandedRows);
+        setExpandedRows(prevState => ({
+            ...prevState,
+            [index]: !prevState[index]
+        }));
     };
 
     return (
@@ -63,12 +61,18 @@ const DeploymentTable: React.FC<Props> = ({ deployments }) => {
                             <div className='bg-slate-200 px-3 py-4 w-1/6 flex justify-center'>O</div>
                             <div className='bg-slate-200 px-3 py-4 w-1/6 flex justify-center'>O</div>
                         </div>
-                        {expandedRows.includes(index) && selectedDeployment && (
+                        {expandedRows[index] && (
                             <div className="col-span-5 border-t border-gray-200 bg-slate-400 p-2 h-56">
-                                <p>{`Branch: ${selectedDeployment.branch}`}</p>
-                                <p>{`Deployment Date: ${selectedDeployment.deployment_date}`}</p>
-                                <p>{`Status: ${selectedDeployment.status}`}</p>
-                                <p>{`Environment: ${selectedDeployment.environment}`}</p>
+                                <p>{`Branch: ${deployment.branch}`}</p>
+                                <p>{`Deployment Date: ${deployment.deployment_date}`}</p>
+                                <p>{`Status: ${deployment.status}`}</p>
+                                <p>{`Environment: ${deployment.commit_hash}`}</p>
+                                <p>{`Environment: ${deployment.deployed_by}`}</p>
+                                <p>{`Environment: ${deployment.deployment_duration}`}</p>
+                                <p>{`Environment: ${deployment.rollback_status}`}</p>
+                                <p>{`Environment: ${deployment.error_logs}`}</p>
+                                <p>{`Environment: ${deployment.test_results}`}</p>
+                                <p>{`Environment: ${deployment.deployment_notes}`}</p>
                             </div>
                         )}
                     </React.Fragment>
