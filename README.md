@@ -3,7 +3,6 @@ table that expands
 
 
 
-Here is the prompt to give your work laptop's AI. It assumes your current v_new/v_old setup is working and focuses entirely on adding the "Type Awareness" layer.
 Prompt to Copy:
 I need you to act as a Senior Node.js Tooling Engineer. I currently have a working script that sets up two directories (`temp/v_old` and `temp/v_new`) and installs a specific package version in each.
 
