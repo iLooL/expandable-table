@@ -46,3 +46,23 @@ Write a function `compareSignatures(oldSig, newSig)` that diffs the two JSON obj
 1.  Code for `src/type-analyzer.js` containing these functions.
 2.  A snippet showing how to integrate this into my existing `index.js` loop (e.g., "If types found -> use Analyzer; Else -> use existing Inspector").
 
+
+
+
+
+
+
+
+Here is a summarized context prompt you can easily copy and paste into your work laptop to share with your team or use as context for further development:
+Context: Post-Deployment Lambda Observability Strategy
+Background: We have a large portfolio of AWS Lambdas (Node.js/TypeScript) deployed via AWS CDK. We have recently increased our deployment frequency and are now building an observability tool to automatically validate the health of these deployments. A primary use case is validating minor and patch version updates in package.json to ensure they do not introduce subtle runtime regressions. We currently use Dynatrace for observability.
+Core Objective: Move beyond raw text-based log comparison (which is brittle and noisy) to a more robust, automated health-check strategy post-deployment.
+Proposed Validation Strategies:
+ * Error Signature Analysis (via Dynatrace API): Rather than comparing raw pre/post logs, query Dynatrace specifically for new exception stack traces, unhandled promise rejections, or spikes in 5xx errors/timeouts that did not exist in the 24-hour pre-deployment baseline.
+ * Active Synthetic Validation: Inject a step into the pipeline that actively invokes the newly deployed Lambda with a deterministic test payload. Validate the HTTP status code, execution duration, and response schema before allowing real user traffic to rely on it.
+ * Phased Traffic Shifting (Canary Deployments): Leverage AWS CodeDeploy to route a small percentage (e.g., 10%) of traffic to the newly updated Lambda version. Monitor Dynatrace/CloudWatch alarms on that specific slice of traffic for 5–10 minutes before completing the full cutover.
+ * Bundle Size & Cold Start Monitoring: Track the zipped artifact size pre-deployment and monitor the Init Duration metric post-deployment to catch dependency bloat and prevent performance degradation from transitive dependencies.
+ * Contract & Schema Validation: Ensure the output of the updated Lambda still perfectly adheres to the expected TypeScript interfaces or OpenAPI specifications required by downstream consumers.
+Next Steps / Prompt:
+[Insert your specific question for your tooling or team here, e.g., "Which Dynatrace API endpoints are best suited for fetching new error signatures?"]
+Would you like me to adjust any of the technical specifics in this summary before you send it over?
